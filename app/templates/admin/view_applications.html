@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Application Management</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .status-pending { color: orange; }
+        .status-approved { color: green; }
+        .status-rejected { color: red; }
+        .filter-bar { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="sidebar admin-sidebar">
+    <h3>Admin Panel</h3>
+    <ul>
+        <li><a href="/admin/dashboard">Dashboard</a></li>
+        <li><a href="/admin/shows">Show Management</a></li>
+        <li><a href="/admin/performers">Performer Management</a></li>
+        <li><a href="/admin/applications">Application Management</a></li>
+        <li><a href="/admin/calendar">Calendar Management</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+    </ul>
+</div>
+
+<div class="content">
+    <h1>Role Applications</h1>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <form method="get" action="{{ url_for('admin.view_applications') }}">
+            <label for="status">Filter by Status:</label>
+            <select name="status" id="status">
+                <option value="">All</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+
+            <label for="show_id">Filter by Show:</label>
+            <select name="show_id" id="show_id">
+                <option value="">All Shows</option>
+                {% for show in shows %}
+                    <option value="{{ show.id }}">{{ show.title }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Apply Filters</button>
+            <a href="{{ url_for('admin.view_applications') }}">Reset</a>
+        </form>
+    </div>
+
+    <!-- Application Table -->
+    <form method="post" action="{{ url_for('admin.bulk_application_action') }}">
+        <table border="1" cellspacing="0" cellpadding="5">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="select-all" onclick="toggleSelectAll()"></th>
+                    <th>Performer</th>
+                    <th>Show</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app in applications %}
+                    <tr>
+                        <td>
+                            {% if app.status == 'Pending' %}
+                                <input type="checkbox" name="application_ids" value="{{ app.id }}">
+                            {% else %}
+                                <input type="checkbox" disabled>
+                            {% endif %}
+                        </td>
+                        <td>{{ app.performer.first_name }} {{ app.performer.last_name }} ({{ app.performer.email }})</td>
+                        <td>{{ app.show.title }}</td>
+                        <td>{{ app.role.name }}</td>
+                        <td class="status-{{ app.status.lower() }}">{{ app.status }}</td>
+                        <td>
+                            {% if app.status == 'Pending' %}
+                                <form method="post" action="/admin/applications/{{ app.id }}/approve" style="display:inline;">
+                                    <button type="submit" onclick="return confirm('Approve this application?')">Approve</button>
+                                </form>
+                                <form method="post" action="/admin/applications/{{ app.id }}/reject" style="display:inline;">
+                                    <button type="submit" onclick="return confirm('Reject this application?')">Reject</button>
+                                </form>
+                            {% else %}
+                                <button disabled>{{ app.status }}</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Bulk Action Buttons -->
+        <div style="margin-top: 10px;">
+            <select name="action" required>
+                <option value="">Bulk Action</option>
+                <option value="approve">Approve Selected</option>
+                <option value="reject">Reject Selected</option>
+            </select>
+            <button type="submit" onclick="return confirm('Apply this action to selected applications?')">Apply</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function toggleSelectAll() {
+        const checkboxes = document.querySelectorAll('input[name="application_ids"]');
+        const selectAll = document.getElementById('select-all').checked;
+        checkboxes.forEach(cb => { if (!cb.disabled) cb.checked = selectAll; });
+    }
+</script>
+
+</body>
+</html>

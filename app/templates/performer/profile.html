@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performer Profile</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="sidebar performer-sidebar">
+        <h3>Performer Panel</h3>
+        <ul>
+            <li><a href="/performer/dashboard">Dashboard</a></li>
+            <li><a href="/performer/profile">Profile Management</a></li>
+            <li><a href="/performer/shows">Show Management</a></li> 
+            <li><a href="/performer/calendar">Show Calendar</a></li>
+            <li><a href="/performer/roles">Past Roles</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1>Manage Your Profile</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            <label for="first_name">First Name:</label>
+            {{ form.first_name(size=30) }}
+            <br>
+
+            <label for="last_name">Last Name:</label>
+            {{ form.last_name(size=30) }}
+            <br>
+
+            <label for="address">Address:</label>
+            {{ form.address(size=50) }}
+            <br>
+
+            <label for="phone">Phone (10 digits):</label>
+            {{ form.phone(size=15) }}
+            <br>
+
+            <label for="bio">Short Bio:</label>
+            {{ form.bio(rows=4, cols=50) }}
+            <br>
+
+            <label for="headshot">Upload Headshot (PNG only):</label>
+            {{ form.headshot() }}
+            <br>
+
+            {{ form.submit() }}
+        </form>
+
+        {% if current_user.headshot_path %}
+            <h3>Current Headshot:</h3>
+            <img src="{{ current_user.headshot_path }}" alt="Your Headshot" style="width:150px; height:auto;">
+        {% endif %}
+    </div>
+</body>
+</html>

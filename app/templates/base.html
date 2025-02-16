@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mysteries in Motion{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <ul>
+            <li><a href="/admin/dashboard">Admin Dashboard</a></li>
+            <li><a href="/admin/calendar">Calendar Management</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        {% block content %}
+        <!-- Page-specific content here -->
+        {% endblock %}
+    </div>
+</body>
+</html>

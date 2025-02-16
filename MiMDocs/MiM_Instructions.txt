@@ -1,0 +1,6 @@
+python -m venv venv
+venv\Scripts\activate
+
+
+    admin = User(email='admin@mim.com', is_admin=True)
+    admin.set_password('AdminPass123!')

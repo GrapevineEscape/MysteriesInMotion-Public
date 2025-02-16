@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Shows</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="sidebar performer-sidebar">
+        <h3>Performer Panel</h3>
+        <ul>
+            <li><a href="/performer/dashboard">Dashboard</a></li>
+            <li><a href="/performer/profile">Profile Management</a></li>
+            <li><a href="/performer/shows">Show Management</a></li> 
+            <li><a href="/performer/calendar">Show Calendar</a></li>
+            <li><a href="/performer/roles">Past Roles</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1>Available Shows</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <table border="1" cellspacing="0" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Kid-Friendly</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for show in shows %}
+                    <tr>
+                        <td>{{ show.title }}</td>
+                        <td>{{ show.description[:50] }}...</td>
+                        <td>{{ show.type }}</td>
+                        <td>{{ 'Yes' if show.kid_friendly else 'No' }}</td>
+                        <td>
+                            <a href="/performer/shows/{{ show.id }}/roles">View Roles</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

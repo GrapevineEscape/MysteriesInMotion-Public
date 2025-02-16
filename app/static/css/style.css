@@ -1,0 +1,47 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.sidebar {
+    height: 100vh;
+    width: 220px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    color: white;
+}
+
+.admin-sidebar {
+    background-color: #444;
+}
+
+.performer-sidebar {
+    background-color: #6a1b9a;
+}
+
+.sidebar h3 {
+    margin-top: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.content {
+    margin-left: 240px;
+    padding: 20px;
+}

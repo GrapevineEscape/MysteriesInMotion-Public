@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Create New Show Date</h1>
+
+<form method="POST">
+    <label for="show_id">Select Show:</label>
+    <select name="show_id" required>
+        {% for show in shows %}
+        <option value="{{ show.id }}">{{ show.title }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="date">Date & Time: </label>
+    <input type="datetime-local" name="date" required>
+
+    <label for="location">Location: </label>
+    <input type="text" name="location" required>
+    
+<!-- Main Show Date Entry -->
+<div style="margin-bottom: 20px;">
+
+</div>
+
+<!-- Rehearsal Entries -->
+<div id="rehearsal-lines" style="margin-bottom: 20px;"></div>
+
+<button type="button" class="btn btn-secondary" onclick="addRehearsalLine()" style="margin-bottom: 20px;">Add Rehearsal</button>
+
+<script>
+function addRehearsalLine() {
+    const container = document.getElementById('rehearsal-lines');
+    const div = document.createElement('div');
+    div.className = 'rehearsal-entry';
+    div.style.display = 'flex';
+    div.style.gap = '10px';
+    div.style.alignItems = 'center';
+    div.style.marginBottom = '5px';
+
+    div.innerHTML = `
+        <label>Rehearsal:</label>
+        <input type="datetime-local" name="rehearsal_date[]" style="width: 200px;" placeholder="Rehearsal Date/Time">
+
+        <label>Location:</label>
+        <input type="text" name="rehearsal_location[]" style="width: 200px;" placeholder="Rehearsal Location">
+
+        <button type="button" class="btn btn-danger" onclick="removeRehearsalLine(this)">-</button>
+    `;
+
+    container.appendChild(div);
+}
+
+function removeRehearsalLine(button) {
+    button.parentElement.remove();
+}
+</script>
+
+
+    <button type="submit" class="btn btn-success">Save</button>
+</form>
+
+<a href="{{ url_for('admin.calendar_view') }}">Back to Calendar</a>
+{% endblock %}

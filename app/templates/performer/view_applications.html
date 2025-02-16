@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role Applications</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="sidebar admin-sidebar">
+        <h3>Admin Panel</h3>
+        <ul>
+            <li><a href="/admin/dashboard">Dashboard</a></li>
+            <li><a href="/admin/shows">Show Management</a></li>
+            <li><a href="/admin/performers">Performer Management</a></li>
+            <li><a href="/admin/applications">View Applications</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1>Role Applications</h1>
+
+        <table border="1" cellspacing="0" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Performer</th>
+                    <th>Show</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app in applications %}
+                    <tr>
+                        <td>{{ app.performer.first_name }} {{ app.performer.last_name }}</td>
+                        <td>{{ app.show.title }}</td>
+                        <td>{{ app.role.name }}</td>
+                        <td>{{ app.status }}</td>
+                        <td>
+                            <form method="post" action="/admin/applications/{{ app.id }}/approve" style="display:inline;">
+                                <button type="submit" {% if app.status != 'Pending' %}disabled{% endif %}>Approve</button>
+                            </form>
+                            <form method="post" action="/admin/applications/{{ app.id }}/reject" style="display:inline;">
+                                <button type="submit" {% if app.status != 'Pending' %}disabled{% endif %}>Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

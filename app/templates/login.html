@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Mysteries in Motion</title>
+</head>
+<body>
+    <h1>Login</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="post" action="/auth/login">
+        {{ form.hidden_tag() }}
+        <label for="email">Email:</label>
+        {{ form.email(size=30) }}
+        <br>
+
+        <label for="password">Password:</label>
+        {{ form.password(size=30) }}
+        <br>
+
+        {{ form.submit() }}
+    </form>
+
+    <p>Don't have an account? <a href="/auth/register">Register here</a>.</p>
+
+    <p><a href="/">Back to Home</a></p>
+</body>
+</html>

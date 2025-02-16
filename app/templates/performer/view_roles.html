@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Roles</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="sidebar performer-sidebar">
+        <h3>Performer Panel</h3>
+        <ul>
+            <li><a href="/performer/dashboard">Dashboard</a></li>
+            <li><a href="/performer/profile">Profile Management</a></li>
+            <li><a href="/performer/shows">Available Shows</a></li>
+            <li><a href="/performer/roles">Past Roles</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1>Roles for "{{ show.title }}"</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <table border="1" cellspacing="0" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Role Name</th>
+                    <th>Gender</th>
+                    <th>Age Range</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for role in roles %}
+                    <tr>
+                        <td>{{ role.name }}</td>
+                        <td>{{ role.gender }}</td>
+                        <td>{{ role.age }}</td>
+                        <td>{{ role.description[:50] }}...</td>
+                        <td>
+                            {% if role.id in applications %}
+                                <!-- Application exists -->
+                                {% if applications[role.id] == 'Pending' %}
+                                    <button disabled>Applied</button>
+                                {% elif applications[role.id] == 'Approved' %}
+                                    <button disabled style="color: green;">Approved</button>
+                                {% elif applications[role.id] == 'Rejected' %}
+                                    <button disabled style="color: red;">Unavailable</button>
+                                {% endif %}
+                            {% else %}
+                                <!-- No application yet -->
+                                <form action="{{ url_for('performer.apply_for_role', role_id=role.id) }}" method="post" style="display:inline;">
+                                    <button type="submit" onclick="return confirm('Apply for this role?')">Apply</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br><a href="/performer/shows">Back to Shows</a>
+    </div>
+</body>
+</html>

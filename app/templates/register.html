@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performer Registration</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <h1>Performer Registration</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="post" action="/auth/register">
+        {{ form.hidden_tag() }}
+
+        <label for="first_name">First Name:</label>
+        {{ form.first_name(size=30) }}
+        <br>
+
+        <label for="last_name">Last Name:</label>
+        {{ form.last_name(size=30) }}
+        <br>
+
+        <label for="email">Email:</label>
+        {{ form.email(size=30) }}
+        <br>
+
+        <label for="password">Password:</label>
+        {{ form.password(size=30) }}
+        <br>
+
+        <label for="confirm_password">Confirm Password:</label>
+        {{ form.confirm_password(size=30) }}
+        <br>
+
+        <label for="registration_code">Registration Code:</label>
+        {{ form.registration_code(size=30) }}
+        <br>
+
+        {{ form.submit() }}
+    </form>
+
+    <p><a href="/auth/login">Back to Login</a></p>
+</body>
+</html>

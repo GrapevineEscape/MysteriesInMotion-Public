@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role Management</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="sidebar admin-sidebar">
+        <h3>Admin Panel</h3>
+        <ul>
+            <li><a href="/admin/dashboard">Dashboard</a></li>
+            <li><a href="/admin/shows">Show Management</a></li>
+            <li><a href="/admin/performers">Performer Management</a></li>
+            <li><a href="/admin/calendar">Calendar Management</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1>Role Management for "{{ show.title }}"</h1>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Add Role Form -->
+        <h2>Add New Role</h2>
+        <form method="post">
+            {{ form.hidden_tag() }}
+
+            <label for="name">Role Name:</label>
+            {{ form.name(size=30) }}<br>
+
+            <label for="gender">Gender:</label>
+            {{ form.gender() }}<br>
+
+            <label for="age">Age Range:</label>
+            {{ form.age(size=20) }}<br>
+
+            <label for="description">Description:</label>
+            {{ form.description(rows=3, cols=40) }}<br>
+
+            {{ form.submit() }}
+        </form>
+
+        <!-- List of Existing Roles -->
+        <h2>Existing Roles</h2>
+        <table border="1" cellspacing="0" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Role Name</th>
+                    <th>Gender</th>
+                    <th>Age Range</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for role in roles %}
+                    <tr>
+                        <td>{{ role.name }}</td>
+                        <td>{{ role.gender }}</td>
+                        <td>{{ role.age }}</td>
+                        <td>{{ role.description[:50] }}...</td>
+                        <td>
+                            <a href="/admin/shows/{{ show.id }}/roles/edit/{{ role.id }}">Edit</a>
+                            |
+                            <form action="/admin/shows/{{ show.id }}/roles/delete/{{ role.id }}" method="post" style="display:inline;">
+                                <button type="submit" onclick="return confirm('Delete this role?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br><a href="/admin/shows">Back to Show Management</a>
+    </div>
+</body>
+</html>

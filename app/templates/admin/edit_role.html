@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Role</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="sidebar admin-sidebar">
+        <h3>Admin Panel</h3>
+        <ul>
+            <li><a href="/admin/dashboard">Dashboard</a></li>
+            <li><a href="/admin/shows">Show Management</a></li>
+            <li><a href="/admin/performers">Performer Management</a></li>
+            <li><a href="/admin/calendar">Calendar Management</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1>Edit Role</h1>
+
+        <form method="post">
+            {{ form.hidden_tag() }}
+
+            <label for="name">Role Name:</label>
+            {{ form.name(size=30) }}<br>
+
+            <label for="gender">Gender:</label>
+            {{ form.gender() }}<br>
+
+            <label for="age">Age Range:</label>
+            {{ form.age(size=20) }}<br>
+
+            <label for="description">Description:</label>
+            {{ form.description(rows=3, cols=40) }}<br>
+
+            {{ form.submit() }}
+        </form>
+
+        <br><a href="/admin/shows/{{ show_id }}/roles">Back to Role Management</a>
+    </div>
+</body>
+</html>
