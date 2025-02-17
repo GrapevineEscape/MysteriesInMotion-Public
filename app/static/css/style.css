@@ -114,7 +114,7 @@ html, body {
 
 /* 🔹 Fix ONLY the Admin Calendar sidebar position */
 .admin-calendar-page .admin-sidebar {
-    padding-top: 30px !important; /* Pushes it down to match Dashboard */
+    padding-top: 28px !important; /* Pushes it down to match Dashboard */
 }
 
 
