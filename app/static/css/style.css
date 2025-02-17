@@ -4,6 +4,18 @@ body {
     font-family: 'Arial', sans-serif;
 }
 
+
+/* Force consistent font across all admin pages, overriding Bootstrap */
+.admin-sidebar {
+    font-family: 'Arial', sans-serif !important;
+}
+
+/* Also apply to sidebar links to ensure consistency */
+.admin-sidebar ul li a {
+    font-family: 'Arial', sans-serif !important;
+}
+
+
 /* Sidebar Styles */
 .sidebar {
     height: 100vh;
