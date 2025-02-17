@@ -4,7 +4,6 @@ body {
     font-family: 'Arial', sans-serif;
 }
 
-
 /* Force consistent font across all admin pages, overriding Bootstrap */
 .admin-sidebar {
     font-family: 'Arial', sans-serif !important;
@@ -14,7 +13,6 @@ body {
 .admin-sidebar ul li a {
     font-family: 'Arial', sans-serif !important;
 }
-
 
 /* Sidebar Styles */
 .sidebar {
@@ -90,6 +88,12 @@ body {
     margin: 8px 0 !important;
     padding: 5px 0 !important;
     display: block !important;
+}
+
+/* 🔹 Fix Line Spacing to Match Admin Dashboard */
+.admin-sidebar ul li, 
+.admin-sidebar ul li a {
+    line-height: 1.2 !important; /* Ensures sidebar spacing is consistent */
 }
 
 /* 🔹 Ensure Admin Sidebar Links Remain Correct */
