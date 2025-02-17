@@ -50,6 +50,19 @@ body {
     padding: 5px 0 !important; /* Uniform spacing */
 }
 
+
+/* Override Bootstrap’s extra spacing in Admin Calendar */
+.admin-sidebar ul {
+    padding-left: 0 !important; /* Removes any unwanted left padding */
+    margin: 0 !important;       /* Removes extra top margin */
+}
+
+.admin-sidebar ul li {
+    margin: 8px 0 !important;  /* Matches Performer Sidebar */
+    padding: 5px 0 !important; /* Ensures uniform spacing */
+}
+
+
 /* Sidebar Menu Links */
 .sidebar ul li a {
     color: white;
