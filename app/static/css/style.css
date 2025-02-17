@@ -51,7 +51,13 @@ body {
 /* Fix sidebar header styles for Admin and Performer */
 .admin-sidebar h3,
 .performer-sidebar h3 {
-    font-size: 1.5rem !important; /* One size larger */
+    font-size: 1.25rem !important; /* One size larger */
     font-weight: bold !important; /* Make it bold */
     color: #ADD8E6 !important; /* Light Blue */
 }
+
+
+/* Standardize spacing between sidebar menu items */
+.sidebar ul li {
+    margin: 10px 0 !important;  /* Reduce spacing to match Dashboard */
+    padding: 5px 0;  /* Ensures even spacing */
