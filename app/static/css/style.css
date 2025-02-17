@@ -48,3 +48,6 @@ body {
     padding: 20px;
 }
  
+.admin-sidebar h3 {
+    font-size: 1.0rem !important;
+}
