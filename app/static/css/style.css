@@ -1,4 +1,4 @@
-body {
+body { 
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
@@ -39,34 +39,53 @@ body {
 
 /* Sidebar Menu List - Standardized Spacing */
 .sidebar ul {
-    list-style: none;
+    list-style: none !important; /* Removes default list styles */
     padding: 0 !important; /* Removes any unwanted padding */
     margin: 0 !important;  /* Prevents Bootstrap from altering margins */
+    display: block !important;
 }
 
 /* Sidebar Menu Items */
 .sidebar ul li {
-    margin: 8px 0 !important;  /* Matches Performer Calendar spacing */
-    padding: 5px 0 !important; /* Uniform spacing */
-}
-
-
-/* Override Bootstrap’s extra spacing in Admin Calendar */
-.admin-sidebar ul {
-    padding-left: 0 !important; /* Removes any unwanted left padding */
-    margin: 0 !important;       /* Removes extra top margin */
-}
-
-.admin-sidebar ul li {
     margin: 8px 0 !important;  /* Matches Performer Sidebar */
     padding: 5px 0 !important; /* Ensures uniform spacing */
+    display: block !important; 
 }
-
 
 /* Sidebar Menu Links */
 .sidebar ul li a {
-    color: white;
-    text-decoration: none;
+    color: white !important;
+    text-decoration: none !important;
+    display: block !important;
+    padding: 5px 10px !important;
+}
+
+/* 🔹 Prevent Bootstrap from Affecting Admin Calendar Sidebar */
+.admin-sidebar ul, 
+.admin-sidebar ul li {
+    all: unset;  /* Resets all inherited Bootstrap styles */
+}
+
+/* 🔹 Reapply Sidebar Styles After Reset */
+.admin-sidebar ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+}
+
+.admin-sidebar ul li {
+    margin: 8px 0 !important;
+    padding: 5px 0 !important;
+    display: block !important;
+}
+
+/* 🔹 Ensure Admin Sidebar Links Remain Correct */
+.admin-sidebar ul li a {
+    color: white !important;
+    text-decoration: none !important;
+    display: block !important;
+    padding: 5px 10px !important;
 }
 
 /* Main Content Area */
@@ -74,4 +93,3 @@ body {
     margin-left: 240px;
     padding: 20px;
 }
-
