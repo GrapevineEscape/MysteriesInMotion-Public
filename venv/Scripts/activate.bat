@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=E:\My Drive\The Grapevine Escape\MysteriesInMotion\venv
+set VIRTUAL_ENV=G:\My Drive\The Grapevine Escape\MysteriesInMotion\venv
 
 if not defined PROMPT set PROMPT=$P$G
 

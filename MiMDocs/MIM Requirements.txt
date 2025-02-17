@@ -1,0 +1,262 @@
+Mysteries in Motion (MiM) — Part One: Performer Management
+
+1. Overview
+Mysteries in Motion (MiM) is a web application for managing an online murder mystery troupe based in Grapevine, Texas. The app serves:
+
+Performers: register, maintain profiles, apply for roles (Admin must approve), see upcoming shows, mark rehearsal availability (when fully cast), review scripts, and track performance history.
+Directors: are also Performers in the system but designated as “Director” for a specific Show Date. They have extra visibility into the show’s details without necessarily having an acting role.
+Admins: manage the entire system—adding shows, roles, calendar entries, and approving or rejecting role applications.
+A future Part Two will address a customer-facing sales interface, reusing much of the data from Part One.
+
+2. Key Definitions
+Show: A murder mystery production that may have multiple performance dates.
+Show Role: A character/part within a Show (e.g., “Detective,” “Villain”).
+Show Date: A specific instance of performing the Show (e.g., “April 19th, 2025” at 7 PM).
+Rehearsal Date: A scheduled time(s) for rehearsals, attached to a particular Show Date.
+Admin: The user with full management rights (initially only one).
+Performer: An actor in the system. Also used as the base for a Director account if an Admin designates them to direct.
+Director: A Performer selected by the Admin to oversee a particular Show Date. They see everything a Performer sees but do not necessarily have an acting role.
+Main Calendar: Displays Show Dates (Draft, Open, Fully Cast, Closed, Canceled).
+Sub-Calendar: A “show-specific” calendar page that displays Rehearsal Dates (light blue) and the Show Date (light purple), with either read-only or interactive availability entry.
+3. User Types & Logging
+3.1 Admin (Administrator)
+Count: One initial Admin account (possible future additions out of scope).
+Tokenized Account: Ensures secure sessions.
+Logging:
+Writes to admin.log.
+Captures login success/failure, password changes, major data changes (e.g., show creation, date updates, role approvals).
+3.2 Performer
+Count: Potentially many.
+Tokenized Accounts: Each performer’s session is secured.
+Logging:
+Writes to performer.log.
+Logs include login success/failure, password changes, concurrency collisions, and major data changes (accepting dates, editing profile).
+Each log line includes the performer’s email.
+3.3 Director as a Special Performer
+Designation: The Admin chooses a Performer from the Performer List and marks them as Director for a specific Show Date.
+Behavior:
+Directors have all visibility that a Performer would have if they were part of that show, including access to the Show Details <DATE> page.
+Directors do not require an approved role to see these details. Their director status gives them the right to view.
+They can see (and possibly comment on) rehearsal availability, but do not necessarily take an acting slot.
+Important: No performer can simply pick an unassigned role. They must first be “approved” by an Admin or have applied for a role that the Admin accepts.
+
+4. Page Style & Layout
+Left-Side Navigation: Links on the left; main content on the right.
+Admin Banner: Light Grey left nav.
+Performer/Director Banner: Light Purple left nav.
+Content Area: White.
+5. Common System Pages
+5.1 Login Page
+Purpose: Single portal for Admins, Performers, Directors (Directors are still Performers).
+Post-Login:
+Admin → Admin Main page.
+Performer/Director → Performer Main page.
+Register Button → Performer Registration.
+Forgot Password → Forgot Password page.
+5.2 Performer Registration
+Requirement: Performer Code is required.
+Fields: First Name, Last Name, Email, Registration Code. All required.
+Flow: If code matches, user moves to Performer Profile Management.
+5.3 Forgot Password
+Process: Performer enters email; if found, system sends tokenized reset link.
+User Feedback: “Thank you. If this account is in our system, an email will be provided to reset your password.”
+5.4 Reset Password
+Tokenized Link: Must come from the “Forgot Password” email.
+Fields:
+Email (read-only)
+New Password (uppercase, lowercase, symbol)
+After: Redirect back to Login Page.
+6. Admin Pages
+6.1 Admin Main
+Landing page for Admin.
+Left-Side Links:
+Admin Profile Management
+Show Management
+Show Roles Management
+Performer Management
+Calendar Management
+6.2 Admin Profile Management
+Purpose: Change high-level MiM settings.
+Fields:
+Logo (optional image)
+Admin Name (text)
+Admin Email (display only)
+Performer Code (text): changes code for new registrations.
+6.3 Show Management (Admin Only)
+Purpose: Create/modify the Show “template.”
+Metadata:
+Title (text, required)
+Description (text, required)
+# Male Actors (numeric, informational)
+# Female Actresses (numeric, informational)
+Kid Friendly? (checkbox, visible on the Performer’s Show page but not on the main calendar)
+Type (Standard, Escape, or Online Mystery)
+Show Script (required file upload): only one active script; older versions stored for Admin reference.
+Show Image (optional file)
+Show Roles: defined in Show Roles Management.
+6.4 Show Roles Management (Admin Only)
+Purpose: Create/delete roles for each Show.
+Workflow:
+Select a Show → create roles.
+Role Fields:
+Role Number (auto-generated)
+Role Name (text, required)
+Role Gender (M, F, Any) [required]
+Role Age (text, required)
+Role Description (text, required)
+Deleting a Role: requires “DELETE” confirmation, removes any “Accepted”/“Rejected” references, but remains in history if previously completed.
+6.5 Performer Management (Admin Only)
+Purpose: Admin can add/edit/remove performer accounts, manage requests, or designate Directors.
+Sections:
+Performer List:
+View performer metadata (except passwords), attachments (headshots/resumes), role history (complete/dropped).
+Mark as Director for a specific Show Date: The Admin can select a performer from this list and assign them as Director in the Calendar or show date screen.
+Incoming Requests:
+Shows “Apply for Role” requests.
+Admin can Accept (performer is notified; role set to “Accepted”) or Reject (requires a reason, performer is notified).
+6.6 Calendar Management (Admin Only) - Main Calendar
+Purpose: Manage Show Dates (performance dates).
+
+Creating a Show Date:
+
+Click an empty date → Pop-up:
+Show Name (dropdown, required)
+Date / Time (required)
+Location / Customer / # Attendees (optional)
+Show Director (optional, chosen from Performer List)
+Show Notes - Admin (optional)
+Rehearsal Dates (optional placeholder—can also be managed in a Sub-Calendar)
+Male/Female Performer List placeholders
+Submit → Date enters “Draft.”
+Show Date Statuses:
+
+Draft (grey)
+Open (green)
+Fully Cast (purple)
+Closed (white)
+Canceled (red)
+Draft Actions:
+
+Open: Makes date available to approved performers.
+Cancel: Sets to canceled (red).
+Update: Changes date/time, removing accepted performers (emails them to re-accept).
+Delete: Removes the date entirely (vanishes with no trace).
+Fully Cast: When all roles are taken. Automatically moves to Closed once the date passes.
+
+Dropping a Performer: Revert to Open, remove that performer, mark them “Dropped Show.”
+
+Lifecycle:
+
+mathematica
+Copy
+Edit
+Draft → Open → Fully Cast → Closed
+             ↘ Canceled
+7. Sub-Calendar for Rehearsals
+Rather than cluttering the Main Calendar, each Show Date may have a Sub-Calendar for rehearsals:
+
+Access:
+
+Admin/Director/Approved Performers click on the Show Date in the main calendar.
+A new page (or modal) shows the Sub-Calendar for that specific Show Date’s rehearsals.
+Read-Only vs. Interactive:
+
+Before the show date is fully cast (or if the performer is not approved), it’s read-only.
+Once the show date has a Director and is Fully Cast, the Sub-Calendar is interactive for those in the show (approved performers + Director). They can mark availability.
+Data Storage:
+
+Each rehearsal date is a “child” event tied to the parent show date.
+Light Blue = Rehearsal event(s).
+Light Purple = Performance date for that show.
+8. Show Details <DATE> Pages
+8.1 Show Details <DATE> (Admin + Director View)
+Display Conditions:
+A Director is assigned (chosen from the Performer list).
+At least one Rehearsal Date is configured.
+The show date is “Fully Cast.”
+Where It Appears: As “Show Details <DATE>” in the left nav once these conditions are met.
+Contents:
+Show Name / Date / Time / Director
+All Performers: Show each performer’s status:
+IN PROGRESS (has not recorded availability for all rehearsals)
+COMPLETE (has recorded availability for every rehearsal)
+Sub-Calendar:
+Light Blue = Rehearsals, Light Purple = Show Date
+Show Notes - Admin
+Print Rehearsal Schedule: Summaries of each rehearsal date/time plus each performer’s availability status.
+Director can see all the same info an Admin sees here (except for any truly admin-only controls like “Delete Show,” if that’s out of scope). But the Director is not an actor role—just an overseeing Performer.
+
+8.2 Show Details <DATE> (Performer Side)
+Also triggered once the show date is Fully Cast, a Director is assigned, and at least one Rehearsal Date exists.
+Read-Only if Not Approved: Performers who are not cast can still see the rehearsal schedule but cannot interact.
+Contents:
+Show Name / Date / Time / Director
+Performer’s Own Status: IN PROGRESS until they respond to all rehearsals, COMPLETE once done.
+Sub-Calendar (like Admin’s but limited to the performer’s own availability input):
+Each rehearsal date (light blue) can be clicked to choose Available, Unavailable (note required), or Partial (note required).
+Once submitted, the date changes color (blue → purple).
+Show Notes - Admin (read-only).
+9. Performer Pages
+9.1 Performer Main
+Landing page post-performer login.
+Left-Side Links:
+Performer Profile Management
+Show Management
+Show Calendar
+Mystery Performers
+Past Roles/Performances
+9.2 Performer Profile Management
+Fields:
+First/Last Name (required)
+Email (read-only from registration)
+Password (must include uppercase, lowercase, symbol)
+Address (required)
+Phone (required, US format)
+Headshot (optional)
+Resume (optional)
+Short Description (optional)
+Joined Date: Recorded when saved.
+9.3 Show Management (Performer Side)
+Purpose: Lists shows.
+Details:
+Show metadata (title, description, type, kid-friendly, etc.).
+Roles: “Not Applied,” “Accepted,” “Rejected.”
+“Apply for Role” button if not yet approved.
+Script Link → pop-up with active script (read/print only).
+9.4 Script Display (Pop-up)
+Scrolling text + “Print” button.
+No editing by performers.
+9.5 Show Calendar (Performer Side) - Main Calendar
+Color Legend:
+
+Draft (grey)
+Open (green)
+Fully Cast (purple)
+Closed (white)
+Canceled (red)
+Clicking a Date:
+
+Shows show info + roles.
+If performer is approved for a role that’s unassigned, they see “Choose This Role” → accept it.
+If not approved, it just shows “Available” but no action possible.
+Concurrency collisions: the first to confirm wins.
+9.6 Mystery Performers
+Purpose: Shows a roster of all performers in MiM.
+On Click: See joined date, headshot, short description, resume, and accepted roles.
+9.7 Past Roles/Performances
+Purpose: List the performer’s history.
+Data: Show date/time, show name, role, role status (Completed or Dropped), location, other cast members.
+10. Q&A Clarifications (Incorporated)
+Admin Cannot Lock a Performer: Performers must click/accept a date themselves.
+No “Decline” Mechanism: Performers simply do not accept if they’re unavailable.
+Dropping Out: Must inform Admin offline; Admin reopens the date, marks “Dropped Show.”
+Kid Friendly?: Visible in the show’s metadata but not on the main calendar.
+Script Version Revert: Not supported; old scripts are for Admin reference only.
+Deleted Shows: Vanish without a trace from the system.
+No Auto-Notifications on Admin Editing Performer Data: Out of scope.
+Admin vs. Performer Collision Logging: Out of scope except concurrency is logged in performer.log.
+Director = Performer: Admin designates a performer as Director for a given Show Date, granting them additional show visibility.
+11. Final Notes
+Part One: This specification covers everything from user registration and profile management to show creation, role approval, and a two-layer calendar system (main calendar for performances, sub-calendar for rehearsals).
+Director as a performer with special visibility clarifies how each show can be managed from both administrative and leadership perspectives.
+Future: Part Two will build upon these data structures for a customer-facing sale page.

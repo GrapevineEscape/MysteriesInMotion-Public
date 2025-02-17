@@ -4,3 +4,12 @@ venv\Scripts\activate
 
     admin = User(email='admin@mim.com', is_admin=True)
     admin.set_password('AdminPass123!')
+
+
+
+
+
+git add .
+git commit -m "Your commit message"
+git push origin main
+git push public main

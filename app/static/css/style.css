@@ -17,6 +17,7 @@ body {
 
 .admin-sidebar {
     background-color: #444;
+    font-size: 1.5rem !important; /* Adjust as needed */
 }
 
 .performer-sidebar {
