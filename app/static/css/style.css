@@ -31,7 +31,7 @@ body {
 /* Sidebar Headers (Admin & Performer) */
 .admin-sidebar h3,
 .performer-sidebar h3 {
-    font-size: 1.5rem !important; /* Ensures same size across all pages */
+    font-size: 1.25rem !important; /* Ensures same size across all pages */
     font-weight: bold !important;
     color: #ADD8E6 !important; /* Light Blue */
     margin-bottom: 10px !important; /* Consistent spacing below heading */
