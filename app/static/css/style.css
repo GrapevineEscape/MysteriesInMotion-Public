@@ -30,6 +30,10 @@ body {
 .admin-sidebar {
     background-color: #444;
     font-size: 1.0rem !important; /* Ensures base font size consistency */
+    
+    /* 🔹 Fix Sidebar Vertical Positioning on Admin Calendar */
+    position: fixed !important;
+    top: 0 !important;
 }
 
 /* Performer Sidebar */
@@ -109,3 +113,4 @@ body {
     margin-left: 240px;
     padding: 20px;
 }
+
