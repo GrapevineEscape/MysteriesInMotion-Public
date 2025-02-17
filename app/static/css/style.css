@@ -17,11 +17,12 @@ body {
 
 .admin-sidebar {
     background-color: #444;
-    font-size: 1.5rem !important; /* Adjust as needed */
+    font-size: 1.0rem !important; /* Adjust as needed */
 }
 
 .performer-sidebar {
     background-color: #6a1b9a;
+    font-size: 1.0rem !important; /* Adjust as needed */
 }
 
 .sidebar h3 {
