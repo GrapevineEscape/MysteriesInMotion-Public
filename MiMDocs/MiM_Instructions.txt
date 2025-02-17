@@ -10,6 +10,16 @@ venv\Scripts\activate
 
 
 git add .
-git commit -m "Your commit message"
+git commit -m "Admin Calendar Dashboard css"
 git push origin main
 git push public main
+
+
+
+RUN LOCALLY:
+cd "G:\My Drive\The Grapevine Escape\MysteriesInMotion"
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python run.py
+
