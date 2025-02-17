@@ -112,6 +112,12 @@ html, body {
     padding: 5px 10px !important;
 }
 
+/* 🔹 Fix ONLY the Admin Calendar sidebar position */
+.admin-calendar-page .admin-sidebar {
+    padding-top: 20px !important; /* Pushes it down to match Dashboard */
+}
+
+
 /* Main Content Area */
 .content {
     margin-left: 240px;
