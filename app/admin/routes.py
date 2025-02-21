@@ -4,6 +4,7 @@ from flask_login import login_required, current_user
 from app.models import RoleApplication, User, Show, Role, ShowDate, Rehearsal
 from app.extensions import db
 from app.admin.forms import ShowForm, RoleForm
+from app.admin import admin_bp 
 import logging
 from datetime import datetime
 
@@ -493,5 +494,15 @@ def get_rehearsal_details(rehearsal_id):
     }
     return jsonify(rehearsal_details)
 
+
+@admin_bp.route('/performers')
+def performer_list():
+    performers = Performer.query.order_by(Performer.last_name, Performer.first_name).all()
+    return render_template('admin/performer_list.html', performers=performers)
+
+@admin_bp.route('/performers/<int:performer_id>')
+def performer_detail(performer_id):
+    performer = Performer.query.get_or_404(performer_id)
+    return render_template('admin/performer_detail.html', performer=performer)
 
 

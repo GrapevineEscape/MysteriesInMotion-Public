@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ performer.first_name }} {{ performer.last_name }}</h2>
+<img src="{{ performer.headshot_url }}" alt="Headshot" style="display:block; margin:auto;">
+<p>Email: {{ performer.email }}</p>
+<p>Phone: {{ performer.phone }}</p>
+<p>Address: {{ performer.address }}</p>
+
+<h3>Biography</h3>
+<textarea readonly style="width:100%; text-align:center;">{{ performer.bio }}</textarea>
+
+<h3>Approved Roles</h3>
+<table>
+    <tr>
+        <th>Show Name</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Date Approved/Rejection</th>
+    </tr>
+    {% for role in performer.roles %}
+    <tr>
+        <td>{{ role.show_name }}</td>
+        <td>{{ role.role_name }}</td>
+        <td>{{ role.status }}</td>
+        <td>{{ role.date_status }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="{{ url_for('admin.performer_list') }}">Back to Main</a>
+{% endblock %}
