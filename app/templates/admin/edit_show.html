@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Show</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="sidebar admin-sidebar">
+        <h3>Admin Panel</h3>
+        <ul>
+            <li><a href="/admin/dashboard">Dashboard</a></li>
+            <li><a href="/admin/shows">Show Management</a></li>
+            <li><a href="/admin/performers">Performer Management</a></li>
+            <li><a href="/admin/calendar">Calendar Management</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <h2>Edit Show</h2>
+        <form method="post" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <label for="title">Title:</label>
+            {{ form.title(size=30) }}
+            <br>
+            <label for="description">Description:</label>
+            {{ form.description(rows=4, cols=50) }}
+            <br>
+            <label for="type">Type:</label>
+            {{ form.type() }}
+            <br>
+            <label for="kid_friendly">Kid Friendly:</label>
+            {{ form.kid_friendly() }}
+            <br>
+            <label for="script">Upload Script (PDF):</label>
+            {{ form.script() }}
+            <br>
+            <label for="image">Upload Image (PNG):</label>
+            {{ form.image() }}
+            <br>
+            {{ form.submit() }}
+        </form>
+        <br><a href="/admin/shows">Back to Show Management</a>
+    </div>
+</body>
+</html>
+```

@@ -505,3 +505,21 @@ def performer_detail(performer_id):
     return render_template('admin/performer_detail.html', performer=performer)
 
 
+@admin_bp.route('/shows/edit/<int:show_id>', methods=['GET', 'POST'])
+def edit_show(show_id):
+    show = Show.query.get_or_404(show_id)
+    form = ShowForm(obj=show)
+    if form.validate_on_submit():
+        show.title = form.title.data
+        show.description = form.description.data
+        show.type = form.type.data
+        show.kid_friendly = form.kid_friendly.data
+        if form.script.data:
+            show.script_path = form.script.data.filename  # Save actual upload logic
+        if form.image.data:
+            show.image_path = form.image.data.filename  # Save actual upload logic
+        db.session.commit()
+        flash('Show updated successfully!', 'success')
+        return redirect(url_for('admin.manage_shows'))
+    return render_template('admin/edit_show.html', form=form, show=show)
+
