@@ -497,7 +497,7 @@ def get_rehearsal_details(rehearsal_id):
 @admin_bp.route('/performers')
 def performer_list():
     performers = User.query.filter_by(is_admin=False).order_by(User.last_name, User.first_name).all()
-    return render_template('admin/performer_list.html', performers=performers)
+    return render_template('admin/performer_list.html', performers=enumerate(performers, 1))
 
 @admin_bp.route('/performers/<int:performer_id>')
 def performer_detail(performer_id):
