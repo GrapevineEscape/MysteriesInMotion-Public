@@ -1,14 +1,18 @@
-{% extends 'base.html' %}
+{% extends 'admin/base.html' %}
 {% block content %}
 <h2>Performer Management</h2>
 <table>
     <tr>
+        <th>#</th>
+        <th>Headshot</th>
         <th>Name</th>
         <th>Email</th>
         <th>Phone</th>
     </tr>
-    {% for performer in performers %}
+    {% for index, performer in performers %}
     <tr>
+        <td>{{ index }})</td>
+        <td><img src="{{ performer.headshot_path }}" alt="Headshot" width="50"></td>
         <td><a href="{{ url_for('admin.performer_detail', performer_id=performer.id) }}">{{ performer.first_name }} {{ performer.last_name }}</a></td>
         <td>{{ performer.email }}</td>
         <td>{{ performer.phone }}</td>
