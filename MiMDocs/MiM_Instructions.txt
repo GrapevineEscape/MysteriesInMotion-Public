@@ -10,10 +10,10 @@ tester
 
 
 
-
+git init
 
 git add .
-git commit -m "Admin Calendar Dashboard ADD"
+git commit -m "Show Management - Edit Show_v2 - 022025"
 git push origin main
 git push public main
 

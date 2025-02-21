@@ -69,7 +69,7 @@ def manage_shows():
             description=form.description.data,
             type=form.type.data,
             kid_friendly=form.kid_friendly.data,
-            script_path=script_path if script_path else None,  # Ensure NULL if not provided
+            script_path=script_path if script_path else None,  # Prevent NULL constraint errors
             image_path=image_path if image_path else None
         )
         db.session.add(new_show)
@@ -506,20 +506,41 @@ def performer_detail(performer_id):
 
 
 @admin_bp.route('/shows/edit/<int:show_id>', methods=['GET', 'POST'])
+@login_required
 def edit_show(show_id):
+    if not current_user.is_admin:
+        flash("Unauthorized access.", "danger")
+        return redirect(url_for('performer.dashboard'))
+
     show = Show.query.get_or_404(show_id)
     form = ShowForm(obj=show)
+
     if form.validate_on_submit():
+        # Keep the existing script/image paths if no new file is uploaded
+        script_file = form.script.data
+        image_file = form.image.data
+
+        if script_file:
+            script_filename = f"{form.title.data}_script.pdf"
+            script_path = os.path.join(UPLOAD_FOLDER, script_filename)
+            script_file.save(script_path)
+            show.script_path = script_path  # Update script path
+
+        if image_file:
+            image_filename = f"{form.title.data}_image.png"
+            image_path = os.path.join(UPLOAD_FOLDER, image_filename)
+            image_file.save(image_path)
+            show.image_path = image_path  # Update image path
+
+        # Update other show details
         show.title = form.title.data
         show.description = form.description.data
         show.type = form.type.data
         show.kid_friendly = form.kid_friendly.data
-        if form.script.data:
-            show.script_path = form.script.data.filename  # Save actual upload logic
-        if form.image.data:
-            show.image_path = form.image.data.filename  # Save actual upload logic
+
         db.session.commit()
-        flash('Show updated successfully!', 'success')
+        flash("Show updated successfully!", "success")
         return redirect(url_for('admin.manage_shows'))
+
     return render_template('admin/edit_show.html', form=form, show=show)
 

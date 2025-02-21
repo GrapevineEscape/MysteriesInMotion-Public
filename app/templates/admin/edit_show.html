@@ -21,26 +21,40 @@
         <h2>Edit Show</h2>
         <form method="post" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
+
             <label for="title">Title:</label>
             {{ form.title(size=30) }}
             <br>
+
             <label for="description">Description:</label>
             {{ form.description(rows=4, cols=50) }}
             <br>
+
             <label for="type">Type:</label>
             {{ form.type() }}
             <br>
+
             <label for="kid_friendly">Kid Friendly:</label>
             {{ form.kid_friendly() }}
             <br>
-            <label for="script">Upload Script (PDF):</label>
+
+            <label for="script">Upload New Script (PDF):</label>
             {{ form.script() }}
             <br>
-            <label for="image">Upload Image (PNG):</label>
+            {% if show.script_path %}
+                <p>Current Script: <a href="{{ show.script_path }}" target="_blank">View Script</a></p>
+            {% endif %}
+    
+            <label for="image">Upload New Image (PNG):</label>
             {{ form.image() }}
             <br>
+            {% if show.image_path %}
+                <p>Current Image: <img src="{{ show.image_path }}" width="100"></p>
+            {% endif %}
+
             {{ form.submit() }}
         </form>
+
         <br><a href="/admin/shows">Back to Show Management</a>
     </div>
 </body>
