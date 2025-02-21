@@ -43,10 +43,10 @@ def manage_shows():
     if not current_user.is_admin:
         flash("Unauthorized access.", "danger")
         return redirect(url_for('performer.dashboard'))
-
+    
     shows = Show.query.all()
     form = ShowForm()
-
+    
     if form.validate_on_submit():
         # Handle file uploads
         script_file = form.script.data
@@ -69,8 +69,8 @@ def manage_shows():
             description=form.description.data,
             type=form.type.data,
             kid_friendly=form.kid_friendly.data,
-            script_path=script_path,
-            image_path=image_path
+            script_path=script_path if script_path else None,  # Ensure NULL if not provided
+            image_path=image_path if image_path else None
         )
         db.session.add(new_show)
         db.session.commit()
