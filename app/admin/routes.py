@@ -4,7 +4,6 @@ from flask_login import login_required, current_user
 from app.models import RoleApplication, User, Show, Role, ShowDate, Rehearsal
 from app.extensions import db
 from app.admin.forms import ShowForm, RoleForm
-from app.admin import admin_bp 
 import logging
 from datetime import datetime
 
