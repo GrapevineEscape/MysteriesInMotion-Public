@@ -1,33 +1,50 @@
-{% extends 'admin/base.html' %}
-{% block content %}
-<h2>{{ performer.first_name }} {{ performer.last_name }}</h2>
-<img src="{{ performer.headshot_path }}" alt="Headshot" style="display:block; margin:auto; width:150px;">
-<p>Email: {{ performer.email }}</p>
-<p>Phone: {{ performer.phone }}</p>
-<p>Address: {{ performer.address }}</p>
-
-<h3>Biography</h3>
-<div style="max-width: 600px; text-align: left; white-space: pre-wrap;">
-    {{ performer.bio }}
-</div>
-
-<h3>Approved Roles</h3>
-<table>
-    <tr>
-        <th>Show Name</th>
-        <th>Role</th>
-        <th>Status</th>
-        <th>Date Approved/Rejection</th>
-    </tr>
-    {% for role in performer.roles %}
-    <tr>
-        <td>{{ role.show_name }}</td>
-        <td>{{ role.role_name }}</td>
-        <td>{{ role.status }}</td>
-        <td>{{ role.date_status }}</td>
-    </tr>
-    {% endfor %}
-</table>
-
-<a href="{{ url_for('admin.performer_list') }}">Back to Main</a>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performer Details</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="sidebar admin-sidebar">
+        <h3>Admin Panel</h3>
+        <ul>
+            <li><a href="/admin/dashboard">Dashboard</a></li>
+            <li><a href="/admin/shows">Show Management</a></li>
+            <li><a href="/admin/performers">Performer Management</a></li>
+            <li><a href="/admin/calendar">Calendar Management</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <h2>{{ performer.first_name }} {{ performer.last_name }}</h2>
+        <img src="{{ performer.headshot_path }}" alt="Headshot" style="display:block; margin:auto; width:150px;">
+        <p>Email: {{ performer.email }}</p>
+        <p>Phone: {{ performer.phone }}</p>
+        <p>Address: {{ performer.address }}</p>
+        <h3>Biography</h3>
+        <div style="max-width: 600px; text-align: left; white-space: pre-wrap;">
+            {{ performer.bio }}
+        </div>
+        <h3>Approved Roles</h3>
+        <table>
+            <tr>
+                <th>Show Name</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Date Approved/Rejection</th>
+            </tr>
+            {% for role in performer.roles %}
+            <tr>
+                <td>{{ role.show_name }}</td>
+                <td>{{ role.role_name }}</td>
+                <td>{{ role.status }}</td>
+                <td>{{ role.date_status }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="{{ url_for('admin.performer_list') }}">Back to Main</a>
+    </div>
+</body>
+</html>
