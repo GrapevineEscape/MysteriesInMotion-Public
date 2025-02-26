@@ -46,7 +46,7 @@
                 {% for show in shows %}
                     <tr>
                         <td>{{ show.title }}</td>
-                        <td>{{ show.description[:50] }}...</td>
+                        <td>{{ show.description | safe }}...</td>
                         <td>{{ show.type }}</td>
                         <td>{{ 'Yes' if show.kid_friendly else 'No' }}</td>
                         <td>
